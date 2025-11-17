@@ -1,35 +1,6 @@
-import json
-file_path = 'Phonebook.json'
-PB = {}
-try:
-    with open(file_path,"r") as file:
-        PB = json.load(file)
-except FileNotFoundError:
-    PB = {}
-def addContact(name,num):
-    PB[name] = num
-    with open(file_path,"w") as file:
-        json.dump(PB,file,indent  = 4)
-def search(name):
-    if not PB:
-        print("PhoneBook is Empty")
-    else:
-        if name in PB:
-            print(f"The Contact for {name} is {PB[name]}")
-        else:
-            print(f"{name} not found!")
-def delete_contact(name):
-    if name in PB:
-        del PB[name]
-        with open(file_path,"w") as file:
-            json.dump(PB,file,indent  = 4)
-    else:
-        print(f"{name} not found!!")
+from phonebook_class import PhoneBook
 
-def showall():
-    print(PB)
-
-
+PB = PhoneBook()
 
 while True:
     print("Enter input number for input:")
@@ -41,20 +12,17 @@ while True:
     print(f"5 : To exit()")
     x = int(input())
     if x == 1:
-        print("Enter name and number with space")
-        lists = input().split()
-        addContact(lists[0],int(lists[1]))
+        inp = input().split()
+        PB.add_contact(inp[0],int(inp[1]))
     elif x == 2:
-        print("Enter name to search")
-        name = input()
-        search(name)
+        inp = input()
+        PB.search_contact(inp)
     elif x == 3:
-        print("Enter name to delete")
-        name = input()
-        delete_contact(name)
+        inp = input()
+        PB.delete_contact(inp)
     elif x == 4:
-        showall()
+        PB.showall_contact()
     elif x == 5:
         break
     else:
-        print("Wrong input, try again")
+        print("Please enter Correct input")
